@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <i class="toutiao toutiao-dianzan"></i>
     <h1>APP</h1>
     <router-view/>
   </div>
