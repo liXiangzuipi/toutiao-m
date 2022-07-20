@@ -20,7 +20,10 @@ const routes = [
   {
     path:'/login',
     name:'login',
-    component:()=>import('@/views/Login/index')
+    component:()=>import('@/views/Login/index'),
+    meta:{
+      title:'登录',
+    }
   }
 ]
 
