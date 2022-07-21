@@ -8,7 +8,7 @@
       placeholder
     />
     <!--  表单-->
-    <van-form @submit="onSubmit">
+    <van-form ref="loginForm" @submit="onSubmit">
       <van-field
         :rules="userFormRules.mobile"
         v-model="user.mobile"
@@ -29,11 +29,11 @@
       >
         <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
         <template #button>
-          <van-button class="send-sms-btn" round>发送验证码</van-button>
+          <van-button native-type="button" @click="onSendSms" class="send-sms-btn" round>发送验证码</van-button>
         </template>
       </van-field>
       <div style="margin: 16px;">
-        <van-button block type="info" native-type="submit">登录</van-button>
+        <van-button  block type="info" native-type="submit">登录</van-button>
       </div>
     </van-form>
   </div>
@@ -93,6 +93,20 @@ export default {
 
 
     },
+  //  发送验证码
+    async onSendSms(){
+    //  该按钮设置为 native-button 因为会触发提交按钮
+    //  1.验证手机号
+      try {
+        this.$refs.loginForm.validate('mobile')
+        this.$toast()
+      }catch (e) {
+        console.log('发送验证码失败')
+        return console.log(e)
+      }
+    //  2.验证通过 倒计时
+
+    }
 
   },
 }
