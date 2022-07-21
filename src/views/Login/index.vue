@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import {login} from "@/api/user";
+import {login,sendSms} from "@/api/user";
 import {Toast} from "vant";
 
 export default {
@@ -111,6 +111,14 @@ export default {
       }
     //  2.验证通过 倒计时
       this.timeShow=true
+    //  3.发送验证码
+      try {
+        let res=await sendSms(this.user.mobile)
+        console.log(res)
+      }catch (e) {
+        console.log('发送验证码错误')
+        console.log(e)
+      }
 
     }
 
