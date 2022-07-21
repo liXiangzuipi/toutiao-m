@@ -10,17 +10,16 @@
 <!--  表单-->
   <van-form @submit="onSubmit">
     <van-field
-      v-model="username"
-      name="手机号"
+      v-model="user.mobile"
+      name="mobile"
       placeholder="手机号"
     >
       <i slot="left-icon" class="toutiao toutiao-shouji"></i>
     </van-field>
     <van-field
-      v-model="password"
-      type="password"
-      name="密码"
-      placeholder="密码"
+      v-model="user.code"
+      name="code"
+      placeholder="请输入验证码"
     >
       <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
       <template #button>
@@ -35,17 +34,32 @@
 </template>
 
 <script>
+import {login} from "@/api/user";
 export default {
   name: "index",
   data() {
     return {
-      username: '',
-      password: '',
+      user:{
+        mobile:'17723567697',
+        code:'246810'
+        // mobile: '13911111111',
+        // code: '246810'
+      }
     };
   },
   methods: {
-    onSubmit(values) {
-      console.log('submit', values);
+    async onSubmit() {
+    //  获取表单信息
+      let user=this.user
+
+      try {
+        let res=await login(user)
+        console.log(res)
+      }catch (e) {
+        console.log(e)
+      }
+
+
     },
 
   },
