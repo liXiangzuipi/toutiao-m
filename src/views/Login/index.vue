@@ -1,62 +1,94 @@
 <template>
-<div class="login-container">
-<!--  头部导航-->
-  <van-nav-bar
-    class="page-nav-bar"
-    :title="$route.meta.title"
-    fixed
-    placeholder
-  />
-<!--  表单-->
-  <van-form @submit="onSubmit">
-    <van-field
-      v-model="user.mobile"
-      name="mobile"
-      placeholder="手机号"
-    >
-      <i slot="left-icon" class="toutiao toutiao-shouji"></i>
-    </van-field>
-    <van-field
-      v-model="user.code"
-      name="code"
-      placeholder="请输入验证码"
-    >
-      <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
-      <template #button>
-        <van-button class="send-sms-btn" round >发送验证码</van-button>
-      </template>
-    </van-field>
-    <div style="margin: 16px;">
-      <van-button block type="info" native-type="submit">登录</van-button>
-    </div>
-  </van-form>
-</div>
+  <div class="login-container">
+    <!--  头部导航-->
+    <van-nav-bar
+      class="page-nav-bar"
+      :title="$route.meta.title"
+      fixed
+      placeholder
+    />
+    <!--  表单-->
+    <van-form @submit="onSubmit">
+      <van-field
+        :rules="userFormRules.mobile"
+        v-model="user.mobile"
+        name="mobile"
+        placeholder="手机号"
+        type="number"
+        maxlength="11"
+      >
+        <i slot="left-icon" class="toutiao toutiao-shouji"></i>
+      </van-field>
+      <van-field
+        type="number"
+        :rules="userFormRules.code"
+        v-model="user.code"
+        name="code"
+        placeholder="请输入验证码"
+        maxlength="6"
+      >
+        <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
+        <template #button>
+          <van-button class="send-sms-btn" round>发送验证码</van-button>
+        </template>
+      </van-field>
+      <div style="margin: 16px;">
+        <van-button block type="info" native-type="submit">登录</van-button>
+      </div>
+    </van-form>
+  </div>
 </template>
 
 <script>
 import {login} from "@/api/user";
+import {Toast} from "vant";
+
 export default {
   name: "index",
   data() {
     return {
-      user:{
-        mobile:'17723567697',
-        code:'246810'
+      user: {
+        mobile: '17723567697',
+        code: '246810'
         // mobile: '13911111111',
         // code: '246810'
+      },
+      userFormRules: {
+        mobile: [{
+          required: true,
+          message: '手机号不能为空'
+        }, {
+          pattern: /^1[3|5|7|8]\d{9}$/,
+          message: '手机号错误'
+        }],
+        code: [
+          {
+            required: true,
+            message: '验证码不能为空'
+          },
+          {
+            pattern: /^\d{6}$/,
+            message: '验证码错误'
+          }
+        ]
       }
     };
   },
   methods: {
     async onSubmit() {
-    //  获取表单信息
-      let user=this.user
-
+      //  获取表单信息
+      let user = this.user
+      Toast.loading({
+        message: '加载中...',
+        forbidClick: true,
+      });
       try {
-        let res=await login(user)
+        let res = await login(user)
+        Toast("登录成功")
         console.log(res)
-      }catch (e) {
+      } catch (e) {
         console.log(e)
+        Toast.fail('登录失败')
       }
 
 
@@ -67,12 +99,13 @@ export default {
 </script>
 
 <style scoped lang="less">
-.login-container{
-  .toutiao{
+.login-container {
+  .toutiao {
     font-size: 37px;
   }
+
   //验证码按扭
-  .send-sms-btn{
+  .send-sms-btn {
     width: 152px;
     height: 46px;
     line-height: 46px;
