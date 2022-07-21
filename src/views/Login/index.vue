@@ -29,7 +29,8 @@
       >
         <i slot="left-icon" class="toutiao toutiao-yanzhengma"></i>
         <template #button>
-          <van-button native-type="button" @click="onSendSms" class="send-sms-btn" round>发送验证码</van-button>
+          <van-count-down v-if="timeShow" @finish="timeShow=false" format="ss 秒" :time="time" />
+          <van-button v-else native-type="button" @click="onSendSms" class="send-sms-btn" round>发送验证码</van-button>
         </template>
       </van-field>
       <div style="margin: 16px;">
@@ -71,7 +72,11 @@ export default {
             message: '验证码错误'
           }
         ]
-      }
+      },
+    //  验证码倒计时
+      time:3*1000,
+    //  倒计时展示
+      timeShow:false,
     };
   },
   methods: {
@@ -99,12 +104,13 @@ export default {
     //  1.验证手机号
       try {
         this.$refs.loginForm.validate('mobile')
-        this.$toast()
+        // this.$toast()
       }catch (e) {
-        console.log('发送验证码失败')
+        console.log('手机号验证失败')
         return console.log(e)
       }
     //  2.验证通过 倒计时
+      this.timeShow=true
 
     }
 
