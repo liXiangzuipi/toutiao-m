@@ -5,7 +5,7 @@ import store from './store'
 import '@/styles/index.less'
 import { NavBar } from 'vant';
 import { Form } from 'vant';
-import { Field,Tabbar, TabbarItem } from 'vant';
+import { Field,Tabbar, TabbarItem,Image as VanImage } from 'vant';
 
 
 Vue.config.productionTip = false
@@ -22,6 +22,7 @@ Vue.use(Toast);
 Vue.use(CountDown);
 Vue.use(Tabbar);
 Vue.use(TabbarItem);
+Vue.use(VanImage);
 
 new Vue({
   router,
