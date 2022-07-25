@@ -6,6 +6,8 @@
       :title="$route.meta.title"
       fixed
       placeholder
+      left-arrow
+      @click-left="$router.back()"
     />
     <!--  表单-->
     <van-form ref="loginForm" @submit="onSubmit">
