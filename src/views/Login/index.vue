@@ -80,6 +80,7 @@ export default {
     };
   },
   methods: {
+    //登录
     async onSubmit() {
       //  获取表单信息
       let user = this.user
@@ -90,6 +91,9 @@ export default {
       try {
         let res = await login(user)
         Toast("登录成功")
+        let data=res.data.data
+        //vuex 保存
+        this.$store.commit('setUser',data)
         console.log(res)
       } catch (e) {
         console.log(e)
@@ -114,6 +118,7 @@ export default {
     //  3.发送验证码
       try {
         let res=await sendSms(this.user.mobile)
+
         console.log(res)
       }catch (e) {
         console.log('发送验证码错误')
