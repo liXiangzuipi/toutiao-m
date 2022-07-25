@@ -24,6 +24,34 @@ const routes = [
     meta:{
       title:'登录',
     }
+  },
+  {
+    path:'/',
+    name:'layout',
+    component:()=>import('@/views/Layout'),
+    redirect:'/home',
+    children:[
+      {
+        path:'/home',
+        name:'home',
+        component:()=>import('@/views/Home/index.vue')
+      },
+      {
+        path:'/my',
+        name:'my',
+        component:()=>import('@/views/My/index')
+      },
+      {
+        path:'/qa',
+        name:'qa',
+        component:()=>import('@/views/Qa/index')
+      },
+      {
+        path:'/video',
+        name:'video',
+        component:()=>import('@/views/Video/index')
+      },
+    ]
   }
 ]
 
